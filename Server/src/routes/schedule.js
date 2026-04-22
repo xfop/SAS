@@ -19,13 +19,16 @@ const DATA_DIR = join(__dirname, '..', 'data');
 function loadAllPlans() {
   const plans = {};
   try {
-    readdirSync(DATA_DIR)
-      .filter(f => f.endsWith('.json'))
+    console.log('DATA_DIR:', DATA_DIR);
+    const files = readdirSync(DATA_DIR);
+    console.log('files found:', files);
+    files.filter(f => f.endsWith('.json'))
       .forEach(file => {
         try {
           const data = JSON.parse(readFileSync(join(DATA_DIR, file), 'utf-8'));
           const id = file.replace('.json', '');
           plans[id] = data;
+          console.log('loaded plan:', id);
         } catch (err) {
           console.error(`could not load ${file}:`, err.message);
         }
