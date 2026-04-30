@@ -2,7 +2,7 @@
 
 const MIN_CREDITS = 12;
 const MAX_CREDITS = 19;
-const MAX_SCHEDULES = 10000;
+const MAX_SCHEDULES = 20;
 
 var DAY_NAMES = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday'];
 
