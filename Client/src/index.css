@@ -1,0 +1,1637 @@
+/*
+=======================================================
+  index.css — الجدول الاكاديمي الذكي
+=======================================================
+
+  الملفات التي تستخدم هذا الـ CSS:
+
+  1. App.jsx               → .header  .plan-selector  .generate-btn
+                              .loading  .error  .summary  .plan-option-btn
+
+  2. FileUpload.jsx        → .upload-section  .upload-grid  .upload-box
+                              .drag-hint  .file-name  .remove-file-btn
+
+  3. ScheduleViewer.jsx    → .schedule-viewer  .schedule-nav  .schedule-tabs
+                              .schedule-tab  .schedule-content  .schedule-header
+                              .credits-badge  .no-schedules  .additional-courses
+                              .additional-list  .total-credits-all
+                              .verification-section  .toggle-section-btn
+                              .verify-content  .verify-table
+
+  4. ScheduleGrid.jsx      → .schedule-grid  .sg-header  .sg-body
+                              .sg-time-col  .sg-day-header  .sg-day-col
+                              .sg-hour-label  .sg-hour-line  .sg-course-block
+                              .sg-block-code  .sg-block-name  .sg-block-time
+                              .sg-block-instructor
+
+  5. CourseCard.jsx        → .course-card  .course-card-header  .course-card-code
+                              .course-card-section  .course-card-name
+                              .course-card-instructor  .course-card-times  .day-time
+
+  6. NextSemesterAdvisor.jsx → .advisor-content  .advisor-block  .advisor-block-title
+                                .advisor-rows  .advisor-row  .advisor-code  .advisor-name
+                                .advisor-credits  .advisor-prereqs  .advisor-scenarios
+                                .advisor-scenario  .advisor-scenario-title
+                                .scenario-label  .advisor-empty
+
+  6. StudyPlanGrid.jsx     → .study-plan-grid-empty  .spg-legend  .spg-badge
+                              .spg-table  .spg-row  .spg-prereqs
+
+  7. InteractiveStudyPlan.jsx → .interactive-study-plan  .plan-toggle-btn
+                                 .plan-header  .plan-instruction  .plan-legend-interactive
+                                 .plan-grid-container  .plan-levels-grid
+                                 .level-column-interactive  .level-header-interactive
+                                 .level-courses-interactive  .course-card-interactive
+                                 .card-code  .card-name  .card-credits  .card-prereqs
+                                 .selected-course-info  .info-grid  .info-box
+                                 .course-chips  .chip  .interactive-plan-loading
+
+=======================================================
+*/
+
+/* ── Global / Base ── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Cairo', sans-serif;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  min-height: 100vh;
+  color: #fff;
+  direction: rtl;
+}
+
+.app {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* ── App.jsx ── */
+.header { /* رأس الصفحة */
+  text-align: center;
+  padding: 30px 0;
+  margin-bottom: 30px;
+}
+.header h1 { /* الجدول الاكاديمي الذكي */
+  font-size: 2.5rem;
+  color: #00d9ff;
+  margin-bottom: 10px;
+}
+.header p { /* جامعة طيبة - كلية علوم وهندسة الحاسب */
+  color: #888;
+  font-size: 1.1rem;
+}
+
+/* ── FileUpload.jsx ── */
+.upload-header { /* رأس قسم رفع الملفات */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.upload-header h2 {
+  margin: 0;
+}
+.how-to-save { /* حاوية زر "كيف أحفظ الملف" */
+  position: relative;
+}
+.how-to-btn { /* زر "؟ كيف أحفظ الملف" */
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.75);
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: inherit;
+}
+.how-to-btn:hover {
+  background: rgba(255, 255, 255, 0.13);
+  color: #fff;
+}
+.how-to-popup { /* نافذة الشرح */
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 320px;
+  background: #1e2535;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 16px;
+  z-index: 100;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+.how-to-header { /* رأس نافذة الشرح */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  color: #fff;
+  font-size: 0.9rem;
+}
+.how-to-close { /* زر إغلاق النافذة */
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0 4px;
+}
+.how-to-close:hover { color: #fff; }
+.how-to-steps { /* خطوات الحفظ */
+  margin: 0 0 12px 0;
+  padding-right: 20px;
+  color: rgba(255,255,255,0.8);
+  font-size: 0.85rem;
+  line-height: 1.8;
+  direction: rtl;
+}
+.how-to-tip { /* تلميح الاختصار */
+  background: rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.6);
+  direction: rtl;
+}
+.how-to-tip kbd { /* مفاتيح لوحة المفاتيح */
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #fff;
+}
+.upload-section { /* قسم رفع الملفات */
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.upload-section h2 {
+  color: #00d9ff;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+}
+
+.upload-grid { /* شبكة صناديق الرفع */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.upload-box { /* صندوق رفع الملف - الإطار المنقط */
+  background: rgba(0, 217, 255, 0.05);
+  border: 2px dashed rgba(0, 217, 255, 0.3);
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.upload-box:hover {
+  border-color: #00d9ff;
+  background: rgba(0, 217, 255, 0.1);
+}
+.upload-box.has-file { /* بعد رفع الملف - إطار أخضر */
+  border-color: #00ff88;
+  background: rgba(0, 255, 136, 0.1);
+}
+.upload-box.dragging { /* عند سحب ملف فوق الصندوق */
+  border-color: #00d9ff;
+  background: rgba(0, 217, 255, 0.15);
+  transform: scale(1.02);
+}
+.drag-hint { /* نص "اسحب وأفلت الملف هنا" */
+  color: #555;
+  font-size: 0.85rem;
+  margin-top: 6px;
+}
+.upload-box input { display: none; }
+.upload-box label {
+  cursor: pointer;
+  display: block;
+}
+.upload-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+.upload-box h3 {
+  color: #fff;
+  margin-bottom: 5px;
+}
+.upload-box p {
+  color: #888;
+  font-size: 0.9rem;
+}
+.file-name { /* اسم الملف بعد الرفع */
+  color: #00ff88;
+  font-weight: 600;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.remove-file-btn { /* زر X لحذف الملف */
+  background: rgba(255, 100, 100, 0.2);
+  border: 1px solid rgba(255, 100, 100, 0.4);
+  color: #ff6464;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+.remove-file-btn:hover {
+  background: rgba(255, 100, 100, 0.4);
+  transform: scale(1.1);
+}
+
+/* ── App.jsx (plan selector + buttons) ── */
+.plan-selector { /* قسم "الخطة الدراسية:" */
+  text-align: center;
+  margin-bottom: 24px;
+}
+.plan-selector label {
+  display: block;
+  color: #aaa;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+.plan-options { /* صف أزرار اختيار الخطة */
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.plan-option-btn { /* زر "علوم الحاسب - خطة 2014" و "علوم الحاسب - خطة 46" */
+  background: rgba(0, 217, 255, 0.05);
+  border: 2px solid rgba(0, 217, 255, 0.2);
+  color: #aaa;
+  padding: 10px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+.plan-option-btn:hover {
+  border-color: #00d9ff;
+  color: #fff;
+}
+.plan-option-btn.active {
+  background: rgba(0, 217, 255, 0.15);
+  border-color: #00d9ff;
+  color: #00d9ff;
+  font-weight: bold;
+}
+
+.generate-btn { /* زر "تحليل الملفات" / "إنشاء الجداول" / "رفع ملفات جديدة" */
+  background: linear-gradient(135deg, #00d9ff, #00a8cc);
+  color: #fff;
+  border: none;
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 20px auto 0;
+}
+.generate-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+}
+.generate-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.loading { /* "جاري تحليل الملفات..." / "جاري إنشاء الجداول..." */
+  text-align: center;
+  padding: 40px;
+  color: #00d9ff;
+}
+.spinner { /* دائرة التحميل الدوارة */
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(0, 217, 255, 0.2);
+  border-top-color: #00d9ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error { /* رسالة الخطأ باللون الأحمر */
+  background: rgba(255, 100, 100, 0.1);
+  border: 1px solid rgba(255, 100, 100, 0.3);
+  border-radius: 10px;
+  padding: 20px;
+  color: #ff6464;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.summary { /* قسم "نتائج التحليل" / "ملخص النتائج" */
+  background: rgba(0, 255, 136, 0.05);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+.summary h3 {
+  color: #00ff88;
+  margin-bottom: 15px;
+}
+.summary-grid { /* شبكة الأرقام: مواد ناجحة / راسبة / إجمالي */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+}
+.summary-item { /* خانة رقم واحدة في الملخص */
+  text-align: center;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+.summary-item .value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #00d9ff;
+}
+.summary-item .label {
+  color: #888;
+  font-size: 0.9rem;
+}
+.summary-item.passed-item .value { color: #00ff88; } /* مواد ناجحة */
+.summary-item.failed-item .value { color: #ff6464; } /* مواد راسبة */
+.summary-item.not-taken-item .value { color: #ffd700; } /* لم تُدرس بعد */
+
+.eligible-courses { margin-top: 20px; }
+.eligible-courses h4 {
+  color: #fff;
+  margin-bottom: 10px;
+}
+.course-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.course-tag {
+  background: rgba(0, 217, 255, 0.1);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #00d9ff;
+}
+.course-tag.elective {
+  background: rgba(255, 165, 0, 0.1);
+  border-color: rgba(255, 165, 0, 0.3);
+  color: #ffa500;
+}
+.course-tag.required {
+  background: rgba(0, 255, 136, 0.1);
+  border-color: rgba(0, 255, 136, 0.3);
+  color: #00ff88;
+}
+.course-tag small { opacity: 0.8; font-size: 0.75rem; }
+.course-tag.eligible {
+  background: rgba(0, 217, 255, 0.15);
+  border-color: rgba(0, 217, 255, 0.4);
+  color: #00d9ff;
+}
+
+/* ── ScheduleViewer.jsx ── */
+.schedule-viewer h2 { /* عنوان صفحة الجداول */
+  color: #00d9ff;
+  margin-bottom: 20px;
+}
+
+/* ── ScheduleGrid.jsx ── */
+.schedule-grid { /* الجدول الأسبوعي (الأحد - الخميس) */
+  width: 100%;
+  overflow-x: auto;
+  margin: 20px 0;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.sg-header { /* صف أسماء الأيام في رأس الجدول */
+  display: grid;
+  grid-template-columns: 55px repeat(5, 1fr);
+  background: rgba(0,217,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.sg-time-col {
+  position: relative;
+  width: 55px;
+  flex-shrink: 0;
+  border-left: 1px solid rgba(255,255,255,0.06);
+}
+.sg-day-header { /* اسم اليوم: الأحد / الإثنين / الثلاثاء... */
+  text-align: center;
+  padding: 12px 4px;
+  color: #00d9ff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-left: 1px solid rgba(255,255,255,0.06);
+}
+.sg-body {
+  display: grid;
+  grid-template-columns: 55px repeat(5, 1fr);
+}
+.sg-hour-label { /* رقم الساعة على الجانب: 8:00 / 9:00... */
+  position: absolute;
+  right: 4px;
+  font-size: 0.65rem;
+  color: #555;
+  transform: translateY(-50%);
+  white-space: nowrap;
+}
+.sg-day-col {
+  position: relative;
+  border-left: 1px solid rgba(255,255,255,0.06);
+  min-width: 100px;
+}
+.sg-hour-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.sg-course-block { /* بلوك المادة داخل الجدول الأسبوعي */
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  border-radius: 6px;
+  border: 1px solid;
+  padding: 6px 8px;
+  overflow: hidden;
+  cursor: default;
+  transition: opacity 0.2s;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sg-course-block:hover { opacity: 0.85; }
+.sg-block-code { /* رمز المادة داخل البلوك مثل CS101 */
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.sg-block-name { /* اسم المادة داخل البلوك */
+  font-size: 0.68rem;
+  line-height: 1.3;
+  opacity: 0.9;
+}
+.sg-block-time { /* وقت المادة مثل 8:00 - 9:30 */
+  font-size: 0.63rem;
+  opacity: 0.75;
+}
+.sg-block-instructor { /* اسم الدكتور داخل البلوك */
+  font-size: 0.63rem;
+  opacity: 0.7;
+}
+.schedule-grid-empty {
+  text-align: center;
+  color: #666;
+  padding: 40px;
+}
+.schedule-tabs { /* صف أزرار "جدول 1" / "جدول 2"... */
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.schedule-tab { /* زر جدول واحد مثل "جدول 1 - 15 ساعة" */
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #fff;
+  font-family: 'Cairo', sans-serif;
+}
+.schedule-tab:hover {
+  background: rgba(0, 217, 255, 0.1);
+  border-color: rgba(0, 217, 255, 0.3);
+}
+.schedule-tab.active {
+  background: linear-gradient(135deg, #00d9ff, #00a8cc);
+  border-color: #00d9ff;
+}
+
+.schedule-info {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.schedule-stat {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+.schedule-stat span { color: #888; }
+.schedule-stat strong {
+  color: #00d9ff;
+  margin-right: 5px;
+}
+
+.schedule-grid {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.grid-header {
+  display: grid;
+  grid-template-columns: 80px repeat(5, 1fr);
+  background: rgba(0, 217, 255, 0.1);
+}
+.grid-header-cell {
+  padding: 15px;
+  text-align: center;
+  font-weight: 600;
+  color: #00d9ff;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+.grid-header-cell:first-child { border-left: none; }
+.grid-body {
+  display: grid;
+  grid-template-columns: 80px repeat(5, 1fr);
+}
+.time-slot {
+  padding: 10px;
+  text-align: center;
+  color: #888;
+  font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.day-column {
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  min-height: 60px;
+  position: relative;
+}
+.course-block {
+  background: linear-gradient(135deg, rgba(0, 217, 255, 0.2), rgba(0, 168, 204, 0.2));
+  border: 1px solid rgba(0, 217, 255, 0.4);
+  border-radius: 8px;
+  padding: 8px;
+  margin: 2px;
+  font-size: 0.75rem;
+}
+.course-block .course-code {
+  font-weight: 700;
+  color: #00d9ff;
+}
+.course-block .course-name {
+  color: #fff;
+  font-size: 0.7rem;
+  margin-top: 2px;
+}
+.course-block .course-time {
+  color: #888;
+  font-size: 0.65rem;
+  margin-top: 4px;
+}
+.course-block .course-section {
+  color: #00ff88;
+  font-size: 0.65rem;
+}
+
+/* ── CourseCard.jsx ── */
+.course-cards { /* شبكة بطاقات المواد أسفل الجدول */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+.course-card { /* بطاقة مادة واحدة */
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+.course-card:hover {
+  border-color: rgba(0, 217, 255, 0.3);
+  transform: translateY(-2px);
+}
+.course-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.course-card-code { /* رمز المادة مثل CS101 */
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #00d9ff;
+}
+.course-card-section { /* رقم الشعبة */
+  background: rgba(0, 255, 136, 0.1);
+  color: #00ff88;
+  padding: 3px 10px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+}
+.course-card-name { /* اسم المادة */
+  color: #fff;
+  margin-bottom: 10px;
+}
+.course-card.full { /* بطاقة شعبة ممتلئة */
+  border-color: rgba(255, 100, 100, 0.4);
+  background: rgba(255, 100, 100, 0.05);
+}
+.section-list { /* قائمة شعب المادة في جدول التحليل */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.section-tag { /* شعبة واحدة */
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.8);
+}
+.section-tag.full { /* شعبة ممتلئة */
+  border-color: rgba(255, 80, 80, 0.3);
+  background: rgba(255, 80, 80, 0.08);
+}
+.section-capacity { /* عدد المسجلين / الطاقة */
+  color: rgba(255,255,255,0.4);
+  font-size: 0.75rem;
+}
+.section-tag.full .section-capacity {
+  color: #ff6464;
+}
+.section-full-badge { /* شارة "ممتلئة" */
+  background: rgba(255, 80, 80, 0.2);
+  color: #ff6464;
+  border: 1px solid rgba(255, 80, 80, 0.4);
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.course-card-capacity { /* عدد المقاعد: 35 / 40 مقعد */
+  color: #888;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+.course-card.full .course-card-capacity {
+  color: #ff6464;
+}
+.course-card-instructor { /* اسم الدكتور */
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+.course-card-times {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.day-time { /* تاق اليوم والوقت مثل "الأحد: 8:00 - 9:30" */
+  background: rgba(0, 217, 255, 0.1);
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  color: #00d9ff;
+}
+
+.no-schedules { /* "لم يتم إنشاء جداول" */
+  text-align: center;
+  padding: 60px 20px;
+  color: #888;
+}
+.no-schedules h3 {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+/* ── Verification / Plan-status sections ── */
+.verification-section { /* قسم قابل للطي: "حالة مواد الخطة" / "تفاصيل السجل الأكاديمي" */
+  margin-top: 16px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+}
+.toggle-section-btn { /* زر "حالة مواد الخطة الدراسية ▼" / "تفاصيل السجل الأكاديمي والجدول ▼" */
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 22px;
+  background: rgba(0,217,255,0.06);
+  border: none;
+  color: #fff;
+  font-family: 'Cairo', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-align: right;
+}
+.toggle-section-btn:hover { background: rgba(0,217,255,0.13); }
+.toggle-arrow { font-size: 0.75rem; color: #00d9ff; margin-right: 8px; }
+.verify-content { /* محتوى السجل بعد فتح القسم */
+  padding: 20px;
+  background: rgba(0,0,0,0.25);
+  max-height: 500px;
+  overflow-y: auto;
+}
+.verify-content h4 {
+  color: #00d9ff;
+  margin: 0 0 12px 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0,217,255,0.15);
+  padding-bottom: 8px;
+}
+.verify-table { /* جدول السجل الأكاديمي: رمز المادة / الاسم / التقدير */
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.verify-table th {
+  text-align: right;
+  padding: 10px 14px;
+  background: rgba(0,217,255,0.08);
+  color: #00d9ff;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(0,217,255,0.2);
+}
+.verify-table td {
+  padding: 9px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.75);
+}
+.verify-table tr.passed td     { color: #00ff88; } /* ناجح */
+.verify-table tr.failed td     { color: #ff6464; } /* راسب */
+.verify-table tr.in-progress td { color: #ffa500; } /* قيد الدراسة */
+.verify-table tr.mosajal td    { color: rgba(255,255,255,0.45); } /* مسجل */
+.verify-table tr.no-grade td   { color: rgba(255,255,255,0.3); } /* بدون تقدير */
+.verify-table tbody tr:hover { background: rgba(255,255,255,0.04); }
+
+.plan-courses-panel {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.panel-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: rgba(0, 217, 255, 0.05);
+  border: none;
+  color: #fff;
+  font-family: 'Cairo', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.panel-toggle:hover { background: rgba(0, 217, 255, 0.1); }
+.panel-stats {
+  display: flex;
+  gap: 15px;
+  font-size: 0.85rem;
+  font-weight: normal;
+}
+.stat-passed { color: #00ff88; }
+.stat-failed { color: #ff6464; }
+.stat-not-taken { color: #ffd700; }
+.plan-courses-content { padding: 20px; }
+.color-legend {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.legend-item { font-size: 0.85rem; }
+.legend-item.passed { color: #00ff88; }
+.legend-item.failed { color: #ff6464; }
+.legend-item.not-taken { color: #ffd700; }
+.plan-courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+.plan-course-card {
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid;
+  transition: all 0.3s ease;
+}
+.plan-course-card.passed {
+  background: rgba(0, 255, 136, 0.08);
+  border-color: rgba(0, 255, 136, 0.4);
+}
+.plan-course-card.failed {
+  background: rgba(255, 100, 100, 0.08);
+  border-color: rgba(255, 100, 100, 0.4);
+}
+.plan-course-card.not_taken {
+  background: rgba(255, 215, 0, 0.08);
+  border-color: rgba(255, 215, 0, 0.4);
+}
+.plan-course-card .course-code {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.plan-course-card.passed .course-code { color: #00ff88; }
+.plan-course-card.failed .course-code { color: #ff6464; }
+.plan-course-card.not_taken .course-code { color: #ffd700; }
+.plan-course-card .course-name {
+  color: #fff;
+  font-size: 0.85rem;
+  margin-bottom: 5px;
+}
+.plan-course-card .course-credits {
+  color: #888;
+  font-size: 0.75rem;
+}
+.plan-course-card .course-prereqs {
+  color: #888;
+  font-size: 0.7rem;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.plan-course-card .course-availability { margin-top: 8px; font-size: 0.75rem; }
+.plan-course-card .available { color: #00ff88; }
+.plan-course-card .not-available { color: #888; }
+.plan-course-card .prereq-missing { color: #ffa500; }
+
+.study-plan-container {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 30px;
+  overflow-x: auto;
+}
+.study-plan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.study-plan-header h2 {
+  color: #00d9ff;
+  font-size: 1.3rem;
+  margin: 0;
+}
+.plan-legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #888;
+}
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+.legend-dot.passed { background: #00ff88; }
+.legend-dot.failed { background: #ff6464; }
+.legend-dot.not-taken { background: #ffd700; }
+
+.study-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(130px, 1fr));
+  gap: 12px;
+  min-width: 1400px;
+}
+.level-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.level-header {
+  background: rgba(0, 217, 255, 0.15);
+  color: #00d9ff;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.level-courses {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.course-card-mini {
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  border: 2px solid transparent;
+}
+.course-card-mini:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+.course-card-mini.passed {
+  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  color: #000;
+}
+.course-card-mini.failed {
+  background: linear-gradient(135deg, #ff6464 0%, #cc4444 100%);
+  color: #fff;
+}
+.course-card-mini.not_taken {
+  background: linear-gradient(135deg, #ffd700 0%, #ffb700 100%);
+  color: #000;
+}
+.course-card-mini .card-code {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.course-card-mini .card-name {
+  font-size: 0.7rem;
+  line-height: 1.3;
+  margin-bottom: 4px;
+  opacity: 0.9;
+}
+.course-card-mini .card-credits {
+  font-size: 0.65rem;
+  opacity: 0.7;
+}
+.course-card-mini .card-status-indicator {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 0.7rem;
+}
+.course-card-mini .card-prereq-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  z-index: 100;
+  margin-bottom: 5px;
+}
+
+.unmapped-courses {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.unmapped-courses h4 {
+  color: #888;
+  margin-bottom: 15px;
+}
+.unmapped-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.unmapped-grid .course-card-mini { min-width: 120px; }
+
+.additional-courses { /* مواد مطلوبة بدون شعب في الجدول */
+  margin-top: 30px;
+  background: rgba(255, 165, 0, 0.08);
+  border: 2px solid rgba(255, 165, 0, 0.4);
+  border-radius: 16px;
+  padding: 20px;
+}
+.additional-courses h4 {
+  color: #ffa500;
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+}
+.additional-list { /* قائمة المواد بدون شعب */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.additional-course-item { /* صف مادة واحدة بدون شعبة */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: rgba(255, 165, 0, 0.06);
+  border: 1px solid rgba(255, 165, 0, 0.2);
+  border-radius: 10px;
+  gap: 12px;
+}
+.additional-course-item .course-code {
+  font-weight: 700;
+  color: #ffa500;
+  min-width: 80px;
+}
+.additional-course-item .course-name {
+  flex: 1;
+  color: #fff;
+  font-size: 0.9rem;
+}
+.additional-course-item .course-credits {
+  color: #888;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.total-credits-all { /* "إجمالي الساعات مع جميع المواد:" */
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 165, 0, 0.2);
+  color: #aaa;
+  font-size: 0.9rem;
+  text-align: left;
+}
+.total-credits-all strong {
+  color: #ffa500;
+  font-size: 1.1rem;
+}
+.additional-courses .note {
+  color: #888;
+  font-size: 0.85rem;
+  margin-bottom: 15px;
+}
+.additional-course-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+.additional-course-card {
+  background: linear-gradient(135deg, rgba(255, 165, 0, 0.2), rgba(255, 140, 0, 0.15));
+  border: 1px solid rgba(255, 165, 0, 0.5);
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+.additional-course-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 165, 0, 0.2);
+}
+.additional-course-card .course-code {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffa500;
+  margin-bottom: 5px;
+}
+.additional-course-card .course-name {
+  color: #fff;
+  font-size: 0.85rem;
+  margin-bottom: 5px;
+}
+.additional-course-card .course-credits {
+  color: #888;
+  font-size: 0.75rem;
+}
+
+/* ── InteractiveStudyPlan.jsx ── */
+.interactive-study-plan { /* قسم الخطة الدراسية التفاعلية */
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+.plan-toggle-btn { /* زر "علوم الحاسب - خطة 2014 ▼" */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 18px 30px;
+  background: linear-gradient(135deg, #2a2a4a, #1a1a3e);
+  border: 2px solid #00d9ff;
+  border-radius: 12px;
+  color: #00d9ff;
+  font-family: 'Cairo', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.plan-toggle-btn:hover {
+  background: linear-gradient(135deg, #3a3a5a, #2a2a4e);
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+  transform: translateY(-2px);
+}
+.plan-toggle-btn .toggle-arrow {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+.interactive-plan-loading {
+  text-align: center;
+  padding: 40px;
+  color: #888;
+}
+.plan-header {
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.plan-header h2 {
+  color: #00d9ff;
+  margin-bottom: 10px;
+}
+.plan-instruction { /* "اضغط على أي مادة لرؤية المتطلبات السابقة والمواد التي تفتحها" */
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+.plan-legend-interactive { /* وسيلة الإيضاح: المادة المختارة / متطلب سابق / تفتح بعدها / غير مرتبطة */
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+}
+.plan-legend-interactive .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #aaa;
+}
+.plan-legend-interactive .legend-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+}
+.plan-legend-interactive .legend-dot.selected {
+  background: linear-gradient(135deg, #ffa500, #ff8c00);
+}
+.plan-legend-interactive .legend-dot.prerequisite {
+  background: linear-gradient(135deg, #00ff88, #00cc6a);
+}
+.plan-legend-interactive .legend-dot.unlocked {
+  background: linear-gradient(135deg, #00d9ff, #00a8cc);
+}
+.plan-legend-interactive .legend-dot.inactive { background: #444; }
+.plan-grid-container {
+  position: relative;
+  overflow-x: auto;
+  padding: 20px 0;
+}
+.plan-levels-grid {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(130px, 1fr));
+  gap: 12px;
+  min-width: 1400px;
+}
+.level-column-interactive {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.level-header-interactive { /* "المستوى الأول" / "المستوى الثاني"... */
+  background: rgba(255, 255, 255, 0.1);
+  color: #888;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+.level-courses-interactive {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.course-card-interactive { /* بطاقة مادة في الخطة التفاعلية */
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  position: relative;
+}
+.course-card-interactive:hover { transform: translateY(-3px); }
+.course-card-interactive.inactive { /* غير مرتبطة - رمادي */
+  background: rgba(80, 80, 80, 0.3);
+  border-color: rgba(100, 100, 100, 0.4);
+  color: #888;
+}
+.course-card-interactive.inactive:hover {
+  background: rgba(100, 100, 100, 0.4);
+  border-color: rgba(150, 150, 150, 0.5);
+}
+.course-card-interactive.inactive .card-code { color: #aaa; }
+.course-card-interactive.inactive .card-name { color: #888; }
+.course-card-interactive.inactive .card-credits,
+.course-card-interactive.inactive .card-prereqs { color: #666; }
+.course-card-interactive.selected { /* المادة المختارة - برتقالي */
+  background: linear-gradient(135deg, #ffa500, #ff8c00);
+  border-color: #ffd700;
+  color: #000;
+  box-shadow: 0 0 20px rgba(255, 165, 0, 0.5);
+  z-index: 5;
+}
+.course-card-interactive.selected .card-code,
+.course-card-interactive.selected .card-name {
+  color: #000;
+  font-weight: 700;
+}
+.course-card-interactive.selected .card-credits,
+.course-card-interactive.selected .card-prereqs { color: #333; }
+.course-card-interactive.prerequisite { /* متطلب سابق - أخضر */
+  background: linear-gradient(135deg, #00ff88, #00cc6a);
+  border-color: #00ff88;
+  color: #000;
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+}
+.course-card-interactive.prerequisite .card-code,
+.course-card-interactive.prerequisite .card-name { color: #000; }
+.course-card-interactive.prerequisite .card-credits,
+.course-card-interactive.prerequisite .card-prereqs { color: #333; }
+.course-card-interactive.unlocked { /* مادة تفتح بعدها - أزرق */
+  background: linear-gradient(135deg, #00d9ff, #00a8cc);
+  border-color: #00d9ff;
+  color: #000;
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
+}
+.course-card-interactive.unlocked .card-code,
+.course-card-interactive.unlocked .card-name { color: #000; }
+.course-card-interactive.unlocked .card-credits,
+.course-card-interactive.unlocked .card-prereqs { color: #333; }
+.course-card-interactive .card-code {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.course-card-interactive .card-name {
+  font-size: 0.7rem;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+.course-card-interactive .card-credits {
+  font-size: 0.65rem;
+  margin-bottom: 2px;
+}
+.course-card-interactive .card-prereqs {
+  font-size: 0.6rem;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.selected-course-info { /* لوحة معلومات المادة المختارة */
+  margin-top: 20px;
+  padding: 20px;
+  background: rgba(255, 165, 0, 0.1);
+  border: 1px solid rgba(255, 165, 0, 0.3);
+  border-radius: 12px;
+}
+.selected-course-info h3 {
+  color: #ffa500;
+  margin-bottom: 15px;
+  text-align: center;
+}
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.info-box {
+  padding: 15px;
+  border-radius: 10px;
+}
+.prereqs-box { /* "المتطلبات السابقة" - أخضر */
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+}
+.prereqs-box h4 {
+  color: #00ff88;
+  margin-bottom: 10px;
+}
+.unlocks-box { /* "المواد التي تفتح بعدها" - أزرق */
+  background: rgba(0, 217, 255, 0.1);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+}
+.unlocks-box h4 {
+  color: #00d9ff;
+  margin-bottom: 10px;
+}
+.course-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chip {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.prereq-chip { /* تاق رمز متطلب سابق */
+  background: rgba(0, 255, 136, 0.2);
+  color: #00ff88;
+}
+.unlock-chip { /* تاق رمز مادة تفتح بعدها */
+  background: rgba(0, 217, 255, 0.2);
+  color: #00d9ff;
+}
+.no-items {
+  color: #666;
+  font-size: 0.9rem;
+}
+.hours-required {
+  margin-top: 8px;
+  color: #ffa500;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ── NextSemesterAdvisor.jsx ── */
+.advisor-content { /* محتوى توصيات الفصل القادم */
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.advisor-block { /* كتلة واحدة من التوصيات */
+  border-radius: 10px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+}
+.advisor-block.available { /* "يمكن التسجيل الآن" */
+  border-color: rgba(100, 220, 130, 0.3);
+  background: rgba(100, 220, 130, 0.06);
+}
+.advisor-block.failed { /* "مواد راسبة" */
+  border-color: rgba(255, 100, 100, 0.3);
+  background: rgba(255, 100, 100, 0.06);
+}
+.advisor-block.eligible { /* "مستوفي المتطلبات بدون شعب" */
+  border-color: rgba(255, 200, 50, 0.3);
+  background: rgba(255, 200, 50, 0.06);
+}
+.advisor-block-title { /* عنوان كل كتلة */
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+  color: rgba(255,255,255,0.9);
+}
+.advisor-rows { /* قائمة المواد داخل الكتلة */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.advisor-row { /* صف مادة واحدة */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 6px;
+  font-size: 0.875rem;
+}
+.advisor-code { /* رمز المادة */
+  font-weight: 700;
+  color: #ffa500;
+  min-width: 75px;
+}
+.advisor-name { /* اسم المادة */
+  flex: 1;
+  color: rgba(255,255,255,0.85);
+}
+.advisor-credits { /* الساعات */
+  color: rgba(255,255,255,0.45);
+  font-size: 0.8rem;
+}
+.advisor-prereqs { /* المتطلبات */
+  color: rgba(255,255,255,0.4);
+  font-size: 0.8rem;
+}
+.advisor-scenarios { /* قسم السيناريوهات */
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  overflow: hidden;
+}
+.advisor-scenario-title { /* "السيناريوهات بناءً على نتائج الفصل الحالي" */
+  padding: 10px 16px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.7);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.advisor-scenario { /* سيناريو واحد */
+  padding: 14px 16px;
+}
+.advisor-scenario + .advisor-scenario { /* فاصل بين السيناريوهين */
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.scenario-label { /* وصف السيناريو */
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.scenario-label.pass { /* سيناريو النجاح */
+  color: #64dc82;
+}
+.scenario-label.fail { /* سيناريو الرسوب */
+  color: #ff6464;
+}
+.advisor-block-credits { /* إجمالي ساعات الكتلة */
+  margin-right: auto;
+  margin-left: 10px;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.45);
+}
+.advisor-credit-bar-wrap { /* شريط الساعات */
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+.advisor-credit-bar-label { /* تسمية شريط الساعات */
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.advisor-credit-count { /* عدد الساعات */
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+.advisor-credit-count.ok   { color: #64dc82; }
+.advisor-credit-count.under { color: #ffa500; }
+.advisor-credit-count.over  { color: #ff6464; }
+.advisor-credit-track { /* مسار شريط التقدم */
+  position: relative;
+  height: 8px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+  overflow: visible;
+}
+.advisor-credit-fill { /* تعبئة شريط التقدم */
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+.advisor-credit-fill.ok    { background: #64dc82; }
+.advisor-credit-fill.under { background: #ffa500; }
+.advisor-credit-fill.over  { background: #ff6464; }
+.advisor-credit-min-marker { /* علامة الحد الأدنى 12 ساعة */
+  position: absolute;
+  top: -3px;
+  width: 2px;
+  height: 14px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 1px;
+  transform: translateX(-50%);
+}
+.advisor-warning { /* تحذير تجاوز الحد الأقصى */
+  background: rgba(255, 100, 100, 0.1);
+  border: 1px solid rgba(255, 100, 100, 0.3);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 0.875rem;
+  color: #ff9090;
+}
+.advisor-warning.under { /* تحذير أقل من الحد الأدنى */
+  background: rgba(255, 165, 0, 0.1);
+  border-color: rgba(255, 165, 0, 0.3);
+  color: #ffc060;
+}
+.advisor-block.failed-no-section { /* مواد راسبة بدون شعب */
+  border-color: rgba(255, 100, 100, 0.15);
+  background: rgba(255, 100, 100, 0.03);
+}
+.advisor-empty { /* "لا توجد توصيات" */
+  color: rgba(255,255,255,0.35);
+  font-size: 0.875rem;
+  text-align: center;
+  padding: 10px 0;
+}
+
+/* ── StudyPlanGrid.jsx ── */
+.study-plan-grid-empty { /* "لا توجد بيانات للخطة الدراسية" */
+  text-align: center;
+  color: rgba(255,255,255,0.4);
+  padding: 24px;
+}
+.spg-legend { /* شريط: ناجح / راسب / متاح / مكتملة متطلباته / لم يدرسها */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.spg-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.spg-badge.passed    { background: rgba(0,255,136,0.12); color: #00ff88; border: 1px solid rgba(0,255,136,0.4); }    /* ناجح */
+.spg-badge.failed    { background: rgba(255,80,80,0.12);  color: #ff6464; border: 1px solid rgba(255,80,80,0.4); }   /* راسب */
+.spg-badge.available { background: rgba(0,217,255,0.12); color: #00d9ff; border: 1px solid rgba(0,217,255,0.4); }   /* متاح في الجدول */
+.spg-badge.eligible  { background: rgba(255,220,0,0.12); color: #ffdc00; border: 1px solid rgba(255,220,0,0.4); }   /* مكتملة متطلباته */
+.spg-badge.not_taken { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.12); } /* لم يدرسها بعد */
+.spg-table { /* جدول حالة مواد الخطة الدراسية */
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 6px;
+  font-size: 0.88rem;
+}
+.spg-table th {
+  text-align: right;
+  padding: 10px 14px;
+  background: rgba(0,217,255,0.08);
+  color: #00d9ff;
+  font-weight: 700;
+  border-bottom: 2px solid rgba(0,217,255,0.2);
+}
+.spg-table th:first-child { border-radius: 8px 0 0 8px; }
+.spg-table th:last-child  { border-radius: 0 8px 8px 0; }
+.spg-table td {
+  padding: 11px 14px;
+  color: rgba(255,255,255,0.75);
+  vertical-align: middle;
+  background: rgba(255,255,255,0.03);
+}
+.spg-row td:first-child { border-radius: 8px 0 0 8px; font-weight: 700; font-size: 0.85rem; }
+.spg-row td:last-child  { border-radius: 0 8px 8px 0; }
+.spg-row.passed    td { background: rgba(0,255,136,0.05); }      /* صف مادة ناجحة */
+.spg-row.failed    td { background: rgba(255,100,100,0.06); }    /* صف مادة راسبة */
+.spg-row.available td { background: rgba(0,217,255,0.05); }      /* صف مادة متاحة في الجدول */
+.spg-row.not_taken td { background: rgba(255,255,255,0.02); color: rgba(255,255,255,0.35); } /* صف مادة لم تُدرس */
+.spg-row:hover td { background: rgba(255,255,255,0.07) !important; }
+.spg-row.passed    td:first-child { color: #00ff88; }
+.spg-row.failed    td:first-child { color: #ff6464; }
+.spg-row.available td:first-child { color: #00d9ff; }
+.spg-row.eligible  td:first-child { color: #ffdc00; }
+.spg-prereqs { font-size: 0.78rem; color: rgba(255,255,255,0.4); line-height: 1.5; }
+
+@media (max-width: 768px) {
+  .header h1 { font-size: 1.8rem; }
+  .upload-grid { grid-template-columns: 1fr; }
+  .grid-header, .grid-body { grid-template-columns: 60px repeat(5, 1fr); }
+  .grid-header-cell, .time-slot { padding: 8px 4px; font-size: 0.7rem; }
+  .course-block { padding: 4px; font-size: 0.6rem; }
+}
