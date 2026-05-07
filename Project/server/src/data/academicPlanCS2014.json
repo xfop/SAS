@@ -1,0 +1,324 @@
+{
+  "_meta": {
+    "name": "علوم الحاسب - خطة 2014",
+    "levels": {
+      "1": ["CHEM101", "MATH101", "GS111", "ENG101", "GS101"],
+      "2": ["GS151", "PHYS101", "BIOL101", "GS152", "ENG102"],
+      "3": ["CS103", "MATH203", "CS111", "PHYS103", "ENGL103"],
+      "4": ["CS112", "GS112", "ENGL104", "MATH204", "PHYS104"],
+      "5": ["GS102","MATH243", "CS281", "COE211", "CS211"],
+      "6": ["ENGL214","COE224", "CS284", "FE1", "SCI100"],
+      "7": ["STAT301","GSE1", "MATH320", "CS323", "CS301"],
+      "8": ["FE2","GS103","COE332", "CS362", "CS372"],
+      "9": ["GS104","CS491", "CS451", "CS433", "CS1", "IS482"],
+      "10": ["CS2", "CS3", "CS424", "GSE2", "CS492"]
+    }
+  },
+  "MATH101": {
+    "name": "مقدمة في الرياضيات ",
+    "credits": 3,
+    "prerequisites": []
+  },
+  "ENG101": {
+    "name": "مهارات اللغة الإنجليزية (1)",
+    "credits": 4,
+    "prerequisites": []
+  },
+  "GS101": {
+    "name": "دراسات إسلامية: العقيدة والعبادة",
+    "credits": 2,
+    "prerequisites": []
+  },
+  "GS111": {
+    "name": "مهارات اللغة العربية (1)",
+    "credits": 2,
+    "prerequisites": []
+  },
+  "CHEM101": {
+    "name": "مقدمة في الكيمياء",
+    "credits": 3,
+    "prerequisites": []
+  },
+  "GS152": {
+    "name": "مهارات الحاسب الآلي",
+    "credits": 2,
+    "prerequisites": []
+  },
+  "ENG102": {
+    "name": "مهارات اللغة الإنجليزية (2)",
+    "credits": 4,
+    "prerequisites": [
+      "ENG101"
+    ]
+  },
+  "BIOL101": {
+    "name": "مقدمة في الأحياء",
+    "credits": 3,
+    "prerequisites": []
+  },
+  "GS151": {
+    "name": "مهارات الحياة الجامعية",
+    "credits": 2,
+    "prerequisites": []
+  },
+  "PHYS101": {
+    "name": "مقدمة في الفيزياء",
+    "credits": 3,
+    "prerequisites": []
+  },
+  "PHYS103": {
+    "name": "فيزيـــــــاء (1)",
+    "credits": 4,
+    "prerequisites": [
+      "PHYS101"
+    ]
+  },
+  "MATH203": {
+    "name": "تفـاضل وتكامل ( 1 )",
+    "credits": 3,
+    "prerequisites": [
+      "MATH101"
+    ]
+  },
+  "CS111": {
+    "name": "برمجة (1)",
+    "credits": 4,
+    "prerequisites": []
+  },
+  "ENGL103": {
+    "name": "مهارات الكتابة",
+    "credits": 3,
+    "prerequisites": ["ENG102"]
+  },
+  "CS103": {
+    "name": "تراكيب متقطعة",
+    "credits": 3,
+    "prerequisites": []
+  },
+  "CS112": {
+    "name": "برمجة (2)",
+    "credits": 4,
+    "prerequisites": [
+      "CS111"
+    ]
+  },
+  "GS112": {
+    "name": "مهارات اللغة العربية (2)",
+    "credits": 2,
+    "prerequisites": [
+      "GS111"
+    ]
+  },
+  "ENGL104": {
+    "name": "مهارات الاتصال",
+    "credits": 3,
+    "prerequisites": [
+      "ENGL103"
+    ]
+  },
+  "MATH204": {
+    "name": "تفاضل وتكامل (2)",
+    "credits": 3,
+    "prerequisites": [
+      "MATH203"
+    ]
+  },
+  "PHYS104": {
+    "name": "فيزياء (2)",
+    "credits": 4,
+    "prerequisites": [
+      "PHYS103"
+    ]
+  },
+  "MATH243": {
+    "name": "جبر خطي(1) ",
+    "credits": 3,
+    "prerequisites": []
+  },
+  "CS281": {
+    "name": "مقدمة في هندسة البرمجيات",
+    "credits": 3,
+    "prerequisites": [
+      "CS111"
+    ]
+  },
+  "CS211": {
+    "name": "الخوارزميات وتراكيب البيانات",
+    "credits": 4,
+    "prerequisites": [
+      "CS112"
+    ]
+  },
+  "COE211": {
+    "name": "تصميم المنطق الرقمي",
+    "credits": 4,
+    "prerequisites": [
+      "CS103"
+    ]
+  },
+  "GS102": {
+    "name": "دراسات إسلامية: ملامح في السيرة النبوية",
+    "credits": 2,
+    "prerequisites": []
+  },
+  "CS284": {
+    "name": "تحليل ونمذجة البرمجيات",
+    "credits": 4,
+    "prerequisites": [
+      "CS281"
+    ]
+  },
+  "FE1": {
+    "name": "مقرر اختياري حر(1)",
+    "credits": 2,
+    "prerequisites": []
+  },
+  "ENGL214": {
+    "name": "مهارات االكتابة الفنية",
+    "credits": 3,
+    "prerequisites": ["ENGL104"]
+  },
+  "SCI100": {
+    "name": "اختياري علوم طبيعية ",
+    "credits": 3,
+    "prerequisites": []
+  },
+  "COE224": {
+    "name": "تنظيم وبناء الحاسب الآلي ( 1 )",
+    "credits": 4,
+    "prerequisites": [
+      "COE211"
+    ]
+  },
+  "CS323": {
+    "name": "نظم التشغيل",
+    "credits": 4,
+    "prerequisites": [
+      "CS211",
+      "COE224"
+    ]
+  },
+  "STAT301": {
+    "name": "الإحتمالات والإحصاء للمهندسين",
+    "credits": 3,
+    "prerequisites": []
+  },
+  "GSE1": {
+    "name": "مقرر متطلب جامعي اختياري(1)",
+    "credits": 2,
+    "prerequisites": []
+  },
+  "CS301": {
+    "name": "نظرية الحوسبة",
+    "credits": 3,
+    "prerequisites": [
+      "CS103"
+    ]
+  },
+  "MATH320": {
+    "name": "معادلات تفاضلية (1)",
+    "credits": 3,
+    "prerequisites": [
+      "MATH204"
+    ]
+  },
+  "CS372": {
+    "name": "نظم قواعد البيانات",
+    "credits": 4,
+    "prerequisites": [
+      "CS211"
+    ]
+  },
+  "GS103": {
+    "name": "دراسات إسلامية: حقوق الإنسان في الإسلام",
+    "credits": 2,
+    "prerequisites": []
+  },
+  "CS362": {
+    "name": "النظم الذكية",
+    "credits": 3,
+    "prerequisites": [
+      "CS211"
+    ]
+  },
+  "COE332": {
+    "name": "شبكات الحاسب",
+    "credits": 4,
+    "prerequisites": [
+      "CS323"
+    ]
+  },
+  "FE2": {
+    "name": "مقرر اختياري حر(2)",
+    "credits": 2,
+    "prerequisites": []
+  },
+  "CS433": {
+    "name": "أمن الحاسب",
+    "credits": 4,
+    "prerequisites": [
+      "COE332"
+    ]
+  },
+  "CS451": {
+    "name": "الرسم بالحاسب",
+    "credits": 4,
+    "prerequisites": [
+      "CS211"
+    ]
+  },
+  "CS491": {
+    "name": "مشروع التخرج(1)",
+    "credits": 1,
+    "prerequisites": [
+      "CS362",
+      "CS284",
+      "CS372",
+      "COE332"
+    ]
+  },
+  "CS1": {
+    "name": "مقرر اختياري في التخصص(1)",
+    "credits": 3,
+    "prerequisites": []
+  },
+  "GS104": {
+    "name": "دراسات إسلامية: القيم والأخلاق الإسلامية",
+    "credits": 2,
+    "prerequisites": []
+  },
+  "IS482": {
+    "name": "الحوسبة واخلاقيات المهنة والمجتمع ",
+    "credits": 1,
+    "prerequisites": []
+  },
+  "GSE2": {
+    "name": "مقرر متطلب جامعي اختياري(2)",
+    "credits": 2,
+    "prerequisites": []
+  },
+  "CS2": {
+    "name": "مقرر اختياري في التخصص(2)",
+    "credits": 3,
+    "prerequisites": []
+  },
+  "CS3": {
+    "name": "مقرر اختياري في التخصص(3)",
+    "credits": 3,
+    "prerequisites": []
+  },
+  "CS424": {
+    "name": "مقدمة في الحوسبة المتوازية",
+    "credits": 4,
+    "prerequisites": [
+      "CS323"
+    ]
+  },
+  "CS492": {
+    "name": "مشروع التخرج(2)",
+    "credits": 3,
+    "prerequisites": [
+      "CS491"
+    ]
+  }
+}
