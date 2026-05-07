@@ -63,15 +63,35 @@ router.post(
       const recordFile = req.files.record[0];
       const academicPlanCS2014 = getPlan(req.body.plan || 'CS2014');
 
-      const sections = parseTimetableHTML(timetableFile.buffer.toString('utf-8'));
+      const timetableHTML = timetableFile.buffer.toString('utf-8');
+      const recordHTML    = recordFile.buffer.toString('utf-8');
 
-      const recordResult = parseRecordHTML(recordFile.buffer.toString('utf-8'));
-      let passedCourses = recordResult.passedCourses;
-      let failedCourses = recordResult.failedCourses || [];
+      const sections    = parseTimetableHTML(timetableHTML);
+      const recordResult = parseRecordHTML(recordHTML);
+      let passedCourses   = recordResult.passedCourses;
+      let failedCourses   = recordResult.failedCourses || [];
       let allRecordCourses = recordResult.allCourses || [];
 
+      // detect swapped files: if timetable slot has no sections but record slot does
       if (sections.length === 0) {
-        return res.status(400).json({ error: 'لم يتم العثور على شعب في ملف الجدول' });
+        const sectionsFromRecord = parseTimetableHTML(recordHTML);
+        if (sectionsFromRecord.length > 0) {
+          return res.status(400).json({
+            error: 'يبدو أنك رفعت الملفين بالعكس — ضع جدول المواد في الخانة الأولى والسجل الأكاديمي في الخانة الثانية'
+          });
+        }
+        return res.status(400).json({ error: 'لم يتم العثور على شعب في ملف الجدول — تأكد أنك رفعت الملف الصحيح' });
+      }
+
+      // detect swapped files: if record slot has sections (timetable) but no grades
+      if (allRecordCourses.length === 0) {
+        const sectionsFromRecord = parseTimetableHTML(recordHTML);
+        if (sectionsFromRecord.length > 0) {
+          return res.status(400).json({
+            error: 'يبدو أنك رفعت الملفين بالعكس — ضع جدول المواد في الخانة الأولى والسجل الأكاديمي في الخانة الثانية'
+          });
+        }
+        return res.status(400).json({ error: 'لم يتم العثور على مواد في السجل الأكاديمي — تأكد أنك رفعت الملف الصحيح' });
       }
 
       // add missing passed
@@ -222,10 +242,32 @@ router.post(
       const recordFile = req.files.record[0];
       const selectedPlan = getPlan(req.body.plan || 'CS2014');
 
-      const sections = parseTimetableHTML(timetableFile.buffer.toString('utf-8'));
+      const timetableHTML2 = timetableFile.buffer.toString('utf-8');
+      const recordHTML2    = recordFile.buffer.toString('utf-8');
 
-      const recordResult = parseRecordHTML(recordFile.buffer.toString('utf-8'));
+      const sections = parseTimetableHTML(timetableHTML2);
+      const recordResult = parseRecordHTML(recordHTML2);
       const allRecordCourses = (recordResult && recordResult.allCourses) || [];
+
+      if (sections.length === 0) {
+        const sectionsFromRecord = parseTimetableHTML(recordHTML2);
+        if (sectionsFromRecord.length > 0) {
+          return res.status(400).json({
+            error: 'يبدو أنك رفعت الملفين بالعكس — ضع جدول المواد في الخانة الأولى والسجل الأكاديمي في الخانة الثانية'
+          });
+        }
+        return res.status(400).json({ error: 'لم يتم العثور على شعب في ملف الجدول — تأكد أنك رفعت الملف الصحيح' });
+      }
+
+      if (allRecordCourses.length === 0) {
+        const sectionsFromRecord = parseTimetableHTML(recordHTML2);
+        if (sectionsFromRecord.length > 0) {
+          return res.status(400).json({
+            error: 'يبدو أنك رفعت الملفين بالعكس — ضع جدول المواد في الخانة الأولى والسجل الأكاديمي في الخانة الثانية'
+          });
+        }
+        return res.status(400).json({ error: 'لم يتم العثور على مواد في السجل الأكاديمي — تأكد أنك رفعت الملف الصحيح' });
+      }
 
       // group timetable by course
       const timetableCourses = {};
