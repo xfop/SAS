@@ -46,6 +46,22 @@ function getAllPlans() {
   return loadAllPlans();
 }
 
+// courses unique to each plan — used to detect which plan a student belongs to
+const ONLY_IN_2014 = ['BIOL101','CHEM101','COE211','COE224','COE332','CS103','CS211',
+  'CS281','CS284','CS301','CS323','CS362','CS372','CS424','CS433','CS451','CS491',
+  'CS492','MATH101','MATH203','MATH204','MATH320','PHYS101','PHYS104','STAT301'];
+const ONLY_IN_46 = ['AI226','COE113','COE124','COE236','CS113','CS114','CS163','CS205',
+  'CS226','CS276','CS285','CS307','CS318','CS358','CS387','CS398','CS429','CS498',
+  'CS499','CYB435','ENV101','IS275','IS377','MATH105','MATH106','STAT103','STAT307'];
+
+function detectPlanFromRecord(allCourses) {
+  const codes = new Set(allCourses.map(c => c.courseCode));
+  const hits2014 = ONLY_IN_2014.filter(c => codes.has(c)).length;
+  const hits46   = ONLY_IN_46.filter(c => codes.has(c)).length;
+  if (hits2014 === 0 && hits46 === 0) return null; // can't tell
+  return hits2014 >= hits46 ? 'academicPlanCS2014' : 'academicPlanCS46';
+}
+
 // POST /api/generate-schedules
 router.post(
   '/generate-schedules',
@@ -92,6 +108,17 @@ router.post(
           });
         }
         return res.status(400).json({ error: 'لم يتم العثور على مواد في السجل الأكاديمي — تأكد أنك رفعت الملف الصحيح' });
+      }
+
+      // detect plan mismatch between selected plan and student record
+      const selectedPlanId = req.body.plan || 'academicPlanCS2014';
+      const detectedPlan   = detectPlanFromRecord(allRecordCourses);
+      if (detectedPlan && detectedPlan !== selectedPlanId) {
+        const selectedName = selectedPlanId === 'academicPlanCS46' ? 'خطة 2024' : 'خطة 2014';
+        const detectedName = detectedPlan   === 'academicPlanCS46' ? 'خطة 2024' : 'خطة 2014';
+        return res.status(400).json({
+          error: `السجل الأكاديمي يبدو أنه لـ ${detectedName} لكنك اخترت ${selectedName} — يرجى اختيار الخطة الصحيحة قبل التحليل`
+        });
       }
 
       // add missing passed
@@ -267,6 +294,17 @@ router.post(
           });
         }
         return res.status(400).json({ error: 'لم يتم العثور على مواد في السجل الأكاديمي — تأكد أنك رفعت الملف الصحيح' });
+      }
+
+      // detect plan mismatch
+      const selectedPlanId2 = req.body.plan || 'academicPlanCS2014';
+      const detectedPlan2   = detectPlanFromRecord(allRecordCourses);
+      if (detectedPlan2 && detectedPlan2 !== selectedPlanId2) {
+        const selectedName2 = selectedPlanId2 === 'academicPlanCS46' ? 'خطة 2024' : 'خطة 2014';
+        const detectedName2 = detectedPlan2   === 'academicPlanCS46' ? 'خطة 2024' : 'خطة 2014';
+        return res.status(400).json({
+          error: `السجل الأكاديمي يبدو أنه لـ ${detectedName2} لكنك اخترت ${selectedName2} — يرجى اختيار الخطة الصحيحة قبل التحليل`
+        });
       }
 
       // group timetable by course
